@@ -8,7 +8,7 @@
         },
         "SQL_Pool_Name": {
             "type": "array",
-            "defaultValue": ["sqlpool1", "sqlpool2"]
+            "defaultValue": ["sqlpool1"]
         },
         "SQL_Pool_Tags": {
             "type": "object",
@@ -18,15 +18,15 @@
         },
         "SQL_Pool_SKU_Name": {
             "type": "array",
-            "defaultValue": ["DW100c", "DW100c"]
+            "defaultValue": ["DW100c"]
         },
         "SQL_Pool_Creation_Mode": {
             "type": "array",
-            "defaultValue": ["Default", "Default"]
+            "defaultValue": ["Default"]
         },
         "SQL_Pool_Collation": {
             "type": "array",
-            "defaultValue": ["SQL_Latin1_General_CP1_CI_AS", "SQL_Latin1_General_CP1_CI_AS"]
+            "defaultValue": ["SQL_Latin1_General_CP1_CI_AS"]
         }
     },
     "resources": [
