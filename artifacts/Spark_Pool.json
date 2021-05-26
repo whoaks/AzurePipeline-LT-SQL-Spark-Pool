@@ -1,0 +1,80 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Synapse_WS_Name": {
+            "type": "string",
+            "defaultValue": "whoaksws"
+        },
+        "Synapse_SP_Name": {
+            "type": "array",
+            "defaultValue": ["sparkpool1"]
+        },
+        "Synapse_SP_Tags": {
+            "type": "object",
+            "defaultValue": {
+                "Env": "Testing"
+            }
+        },
+        "Synapse_SP_Node_Size": {
+            "type": "array",
+            "defaultValue": ["Small"]
+        },
+        "Synapse_SP_Node_Size_Family": {
+            "type": "array",
+            "defaultValue": ["MemoryOptimized"]
+        },
+        "Synapse_SP_Version": {
+            "type": "array",
+            "defaultValue": ["2.4"]
+        },
+        "Synapse_SP_AutoScale": {
+            "type": "array",
+            "defaultValue": [true]
+        },
+        "Synapse_SP_Min_Node": {
+            "type": "array",
+            "defaultValue": [3]
+        },
+        "Synapse_SP_Max_Node": {
+            "type": "array",
+            "defaultValue": [10]
+        },
+        "Synapse_SP_AutoPause": {
+            "type": "array",
+            "defaultValue": [true]
+        },
+        "Synapse_SP_Delay": {
+            "type": "array",
+            "defaultValue": [15]
+        }
+    },
+    "resources": [
+        {
+            "type"      : "Microsoft.Synapse/workspaces/bigDataPools",
+            "apiVersion": "2020-12-01",
+            "name"      : "[concat(parameters('Synapse_WS_Name'), '/', parameters('Synapse_SP_Name')[copyIndex('SynapseSPCopy')])]",
+            "location"  : "[resourceGroup().location]",
+            "tags"      : "[parameters('Synapse_SP_Tags')]",
+            "properties": {
+                "nodeSize"      : "[parameters('Synapse_SP_Node_Size')[copyIndex('SynapseSPCopy')]]",
+                "nodeSizeFamily": "[parameters('Synapse_SP_Node_Size_Family')[copyIndex('SynapseSPCopy')]]",
+                "sparkVersion"  : "[parameters('Synapse_SP_Version')[copyIndex('SynapseSPCopy')]]",
+                "autoScale": {
+                    "enabled"     : "[parameters('Synapse_SP_AutoScale')[copyIndex('SynapseSPCopy')]]",
+                    "minNodeCount": "[parameters('Synapse_SP_Min_Node')[copyIndex('SynapseSPCopy')]]",
+                    "maxNodeCount": "[parameters('Synapse_SP_Max_Node')[copyIndex('SynapseSPCopy')]]"
+                },
+                "autoPause": {
+                    "enabled"       : "[parameters('Synapse_SP_AutoPause')[copyIndex('SynapseSPCopy')]]",
+                    "delayInMinutes": "[parameters('Synapse_SP_Delay')[copyIndex('SynapseSPCopy')]]"
+                }
+            },
+            "copy": {
+                "name" : "SynapseSPCopy",
+                "count": "[length(parameters('Synapse_SP_Name'))]",
+                "mode" : "Serial"
+            }
+        }
+    ]
+}
