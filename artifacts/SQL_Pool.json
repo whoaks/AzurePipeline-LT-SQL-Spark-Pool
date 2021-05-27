@@ -8,7 +8,7 @@
         },
         "SQL_Pool_Name": {
             "type": "array",
-            "defaultValue": ["sqlpool1"]
+            "defaultValue": ["sqlpool"]
         },
         "SQL_Pool_Tags": {
             "type": "object",
